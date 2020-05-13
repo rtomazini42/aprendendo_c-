@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1589399650 source:d:\programaçao\cpp\comeco\hello\main.cpp
+	<iostream>
+	"adv.h"
+
+1589398368 source:d:\programaçao\cpp\comeco\hello\adivinha.cpp
+	<iostream>
+
+1589400689 d:\programaçao\cpp\comeco\hello\adv.h
+
