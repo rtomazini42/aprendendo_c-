@@ -14,25 +14,33 @@ int joga(){
     //vamos testar ifs e elses
 
     const int NUMERO = 31;
-    int chute;
+    bool nao_acertou = true;
 
-    cout <<"Chuta um numero: " <<endl;
-    cin >> chute;
+    while(nao_acertou){
+        int chute;
+        cout <<"Chuta um numero: " <<endl;
+        cin >> chute;
 
-    bool acertou = chute == NUMERO;
-    bool maior = chute > NUMERO;
+        bool acertou = chute == NUMERO;
+        bool maior = chute > NUMERO;
 
 
-    if(acertou){
-        cout <<"Voce acertou!" <<endl;
+        if(acertou){
+            cout <<"Voce acertou!" <<endl;
+            nao_acertou = false;
+        }
+        else if(maior){
+            cout <<"Chute maior que numero" <<endl;
+
+        }
+        else {
+            cout <<"Chute menor que nÃºmero" <<endl;
+        }
+
+
+
     }
-    else if(maior){
-        cout <<"Chute maior que numero" <<endl;
 
-    }
-    else {
-        cout <<"Chute menor que número" <<endl;
-    }
     return 0;
 
 }
