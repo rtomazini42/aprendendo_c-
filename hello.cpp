@@ -31,4 +31,5 @@ int main()
         cout <<"Numero eh maior que o chute" <<endl;
     }
     return 0;
+ //linha adicionada só pra fazer de conta que fiz algo hoje
 }
