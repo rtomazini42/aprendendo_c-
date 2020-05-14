@@ -20,7 +20,7 @@ int joga(){
         int chute;
         cout <<"Chuta um numero: " <<endl;
         cin >> chute;
-
+        //aprende a usar booleano
         bool acertou = chute == NUMERO;
         bool maior = chute > NUMERO;
 
@@ -46,4 +46,4 @@ int joga(){
 }
 
 
-#endif // ADV_H_INCLUDED
+#endif // ADV_H_INCLUDED 
