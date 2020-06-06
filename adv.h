@@ -61,7 +61,7 @@ int joga(){
     double pontos_perdidos;
 
     while(nao_acertou){
-        cout <<NUMERO<<endl;
+        //cout <<NUMERO<<endl;
         tentativas++;
         cout <<endl<<endl;
         cout <<"Tentativa: "<< tentativas <<endl;
