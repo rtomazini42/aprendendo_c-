@@ -43,27 +43,26 @@ bool nao_acertou(){
         return true;
       }
     }
+    cout<<"Acertou!"<<endl;
     return false;
 
 }
 
 bool nao_enforcou(){
+    if(chutes_errados.size() == 5){
+      cout<<"perdeu!"<<"\n"<<"A palavra era:"<<palavra<<endl;
+    }
     return chutes_errados.size() < 5;
 
 }
-
-
-int main () {
+int abertura(){
   cout<<"*************************" << '\n';
   cout<<"****JOGO DO ENFORCADO****"<<endl;
   cout<<"*************************" << '\n';
-  //cout<<palavra<<endl;
-  printar();
-  //bool enforcado = false;
-  //bool acertou = false;
+}
+
+int gameloop(){
   char chute;
-
-
 
   while (nao_enforcou() && nao_acertou()){
     cout <<"Chute: "<<endl;
@@ -86,4 +85,13 @@ int main () {
     }
      cout <<endl<<endl;
   }
+}
+
+int main () {
+  abertura();
+
+  printar();
+
+  gameloop();
+
 }
