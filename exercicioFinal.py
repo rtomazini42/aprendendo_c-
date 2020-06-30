@@ -79,75 +79,60 @@ def compara_assinatura(as_a, as_b):
     return resultado
 
 def calcula_assinatura(texto):
-    letras =[]
-    for letra in texto:
-        if letra != ',' and letra != '.'and letra != ' ':
-            letras.append(letra)
-    palavras = separa_palavras(texto)
-    #tam_med_palavra = len(letras)/len(palavras)
-
-    palavras_limpas = []
-    for palavra in palavras:
-        aux = ""
-        for letra in palavra:
-            if letra != ',' and letra != '.'and letra != ' ':
-                aux = aux+letra
-        palavras_limpas.append(aux)
-
-
-    #type_token = n_palavras_diferentes(palavras_limpas)/len(palavras)
-    #hapax = n_palavras_unicas(palavras_limpas)/len(palavras)
-
-
-    sentencas = separa_sentencas(texto)
-    n_c_sentencas = 0
-    n_sentencas = 0
-
-
-
-
-    for sentenca in sentencas:
-        n_sentencas = n_sentencas + 1
-        for caracter in sentenca:
-            if caracter != '.':
-                n_c_sentencas = n_c_sentencas+1
-
-    #tam_med_sent =n_c_sentencas/n_sentencas
-
-    frases_temp = []
     frases = []
-    frases_aux = sentencas
-    for sentenca in frases_aux:
+    palavras =[]
+    palavras_aux = []
+    letras = 0
+    n_c_sentencas = 0
+    sentencas = separa_sentencas(texto)
+    for sentenca in sentencas:
+        n_c_sentencas = n_c_sentencas + len(sentenca)
         frases_aux = separa_frases(sentenca)
-        frases_temp.append(frases_aux)
-    for i in range(len(frases_temp)):
-        for frase in frases_temp[i]:
-            frases.append(frase)
+        frases.append(frases_aux)
 
-    n_c_frases = 0
+    #print(frases)
+    num_frases = 0
+    for linha in range(len(frases)):
+        for conteudo in frases[linha]:
+            palavras_aux.append(separa_palavras(conteudo))
+            num_frases = num_frases + 1
+    #print(palavras_aux)
+    for element in palavras_aux:
+        palavras.extend(element)
+    #print(palavras)
+    for palavra in palavras:
+        for letra in palavra:
+            letras = letras + 1
+    #print(len(palavras))
+    palavras_diferentes = n_palavras_diferentes(palavras)
+    #print(palavras_diferentes)
+    num_char_frases = 0
+    #print(frases)
     for frase in frases:
-        for caracter in frase:
-            n_c_frases = n_c_frases + 1
+        for conjunto in frase:
+            num_char_frases = num_char_frases + len(conjunto)
+    #print(frases)
+    num_sentencas = len(sentencas)
+    #print(num_sentencas)
 
-    tam_med_palavra = len(letras)/len(palavras)
-    type_token = n_palavras_diferentes(palavras_limpas)/len(palavras)
-    hapax = n_palavras_unicas(palavras_limpas)/len(palavras)
-    tam_med_sent =n_c_sentencas/n_sentencas
-    com_sent = len(frases)/n_sentencas
-    tam_med_frase = n_c_frases/len(frases)
 
-    #print(tam_med_frase)
-    #print(tam_med_palavra, type_token , hapax)
-    return tam_med_palavra, type_token, hapax, tam_med_sent,com_sent, tam_med_frase
+    tamanhoMedioPalavra = letras/len(palavras)
+    token = palavras_diferentes/len(palavras)
+    hapax = n_palavras_unicas(palavras)/len(palavras)
+    tamanhoMedioSentenca = n_c_sentencas/num_sentencas
+    complexidadeSentenca = num_frases/num_sentencas
+    tamanhoMedioFrase = num_char_frases/num_frases
+    #pass
+    return tamanhoMedioPalavra, token, hapax, tamanhoMedioSentenca, complexidadeSentenca, tamanhoMedioFrase
 
-def avalia_textos(textos, ass_cp):
+def avalia_textos(textos, assinatura_lida):
     resultados = []
     for n in textos:
         resultados.append(calcula_assinatura(n))
 
     semelhanca = []
     for n in resultados:
-        semelhanca.append(compara_assinatura(original, n))
+        semelhanca.append(compara_assinatura(assinatura_lida, n))
 
     maior_pos = 0
     maior = semelhanca[0]
@@ -159,11 +144,20 @@ def avalia_textos(textos, ass_cp):
     return maior_pos
 
 #texto = "o gato caçava o rato"
+#texto = "Voltei-me para ela; Capitu tinha os olhos no chão. Ergueu-os logo, devagar, e ficamos a olhar um para o outro... Confissão de crianças, tu valias bem duas ou três páginas, mas quero ser poupado. Em verdade, não falamos nada; o muro falou por nós. Não nos movemos, as mãos é que se estenderam pouco a pouco, todas quatro, pegando-se, apertando-se, fundindo-se. Não marquei a hora exata daquele gesto. Devia tê-la marcado; sinto a falta de uma nota escrita naquela mesma noite, e que eu poria aqui com os erros de ortografia que trouxesse, mas não traria nenhum, tal era a diferença entre o estudante e o adolescente. Conhecia as regras do escrever, sem suspeitar as do amar; tinha orgias de latim e era virgem de mulheres."
 #texto = "Muito além, nos confins inexplorados da região mais brega da Borda Ocidental desta Galáxia, há um pequeno sol amarelo e esquecido. Girando em torno deste sol, a uma distancia de cerca de 148 milhões de quilômetros, há um planetinha verde-azulado absolutamente insignificante, cujas formas de vida, descendentes de primatas, são tão extraordinariamente primitivas que ainda acham que relógios digitais são uma grande ideia."
+#texto = 'Navegadores antigos tinham uma frase gloriosa:"Navegar é preciso; viver não é preciso".Quero para mim o espírito [d]esta frase,transformada a forma para a casar como eu sou:Viver não é necessário; o que é necessário é criar.Não conto gozar a minha vida; nem em gozá-la penso.Só quero torná-la grande,ainda que para isso tenha de ser o meu corpo e a (minha alma) a lenha desse fogo.Só quero torná-la de toda a humanidade;ainda que para isso tenha de a perder como minha.Cada vez mais assim penso.Cada vez mais ponho da essência anímica do meu sangueo propósito impessoal de engrandecer a pátria e contribuirpara a evolução da humanidade.É a forma que em mim tomou o misticismo da nossa Raça.'
+#texto2 = 'Voltei-me para ela; Capitu tinha os olhos no chão. Ergueu-os logo, devagar, e ficamos a olhar um para o outro... Confissão de crianças, tu valias bem duas ou três páginas, mas quero ser poupado. Em verdade, não falamos nada; o muro falou por nós. Não nos movemos, as mãos é que se estenderam pouco a pouco, todas quatro, pegando-se, apertando-se, fundindo-se. Não marquei a hora exata daquele gesto. Devia tê-la marcado; sinto a falta de uma nota escrita naquela mesma noite, e que eu poria aqui com os erros de ortografia que trouxesse, mas não traria nenhum, tal era a diferença entre o estudante e o adolescente. Conhecia as regras do escrever, sem suspeitar as do amar; tinha orgias de latim e era virgem de mulheres.'
+#texto3 = 'NOSSA alegria diante dum sistema metafisico, nossa satisfação em presença duma construção do pensamento, em que a organização espiritual do mundo se mostra num conjunto lógico, coerente a harmônico, sempre dependem eminentemente da estética; têm a mesma origem que o prazer, que a alta satisfação, sempre serena afinal, que a atividade artística nos proporciona quando cria a ordem e a forma a nos permite abranger com a vista o caos da vida, dando-lhe transparência.'
+#Assinatura = [4.79, 0.72, 0.56, 80.5, 2.5, 31.6]
+#texto = 'Navegadores antigos tinham uma frase gloriosa:"Navegar é preciso; viver não é preciso".Quero para mim o espírito [d]esta frase,transformada a forma para a casar como eu sou:Viver não é necessário; o que é necessário é criar.Não conto gozar a minha vida; nem em gozá-la penso.Só quero torná-la grande,ainda que para isso tenha de ser o meu corpo e a (minha alma) a lenha desse fogo.Só quero torná-la de toda a humanidade;ainda que para isso tenha de a perder como minha.Cada vez mais assim penso.Cada vez mais ponho da essência anímica do meu sangueo propósito impessoal de engrandecer a pátria e contribuirpara a evolução da humanidade.É a forma que em mim tomou o misticismo da nossa Raça.'
 #print(calcula_assinatura(texto))
 
-original = le_assinatura()
-suspeitos = le_textos()
+#Assinatura = le_assinatura()
+#suspeitos = le_textos()
+def main():
+    assinatura_lida = le_assinatura()
+    suspeitos = le_textos()
+    print("O autor do texto " , avalia_textos(suspeitos, assinatura_lida), " está infectado com COH-PIAH")
 
-
-print("O autor do texto " , avalia_textos(suspeitos, original), " está infectado com COH-PIAH")
+main()
